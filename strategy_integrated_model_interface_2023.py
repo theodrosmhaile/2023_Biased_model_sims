@@ -9,17 +9,29 @@
 ##   responses.
 ## - It performs analysis of the simulated data and compiles results
 ##   across simulations in to the variable sim_data for export.
+## - This version differes from integrated_model_interface.py in that
+##   it utilizes a parameter for explicitly specifying
+##   a strategy(Reinforcement learning OR WM/LTM) for each trial. 
 ## 
 ##
 ## ============================================================== ;;;
 ## Change log:
 ##
-## This version differes from integrated_model_interface.py in that
-## it utilizes a parameter for explicitly specifying
-## a strategy(Reinforcement learning OR WM/LTM) for each trial. 
-## These changes are implemented in the present_stim() function.
-## 12-2020 Fixed a bug that was preventing means of all simulations 
-##          from being saved for test data. 
+##
+## 12-2020 - Fixed a bug that was preventing means of all simulations 
+##           from being saved for test data. 
+## 09-2023 - Updated model_loop() to include the new schedule_event()
+##           functionality to schedule all stimulus presentations. 
+##           This replaces the relative schedules in present_feedback()
+##           function. 
+##         - Added call to the spacing effects module. 
+##         - Added the new stimulus information about block identitiy to 
+##           present_stim() function. 
+##         - Updated parameters to work with the MAS (replacing imag) and
+##           se, rate of forgetting, which replaces BLL.  
+##         - Updated code so that the random distribution of strategies, 
+##           RL or LTM is shuffled with in a simulaiton. 
+##
 ##
 ## ============================================================== ;;;
 
@@ -27,7 +39,7 @@
 ## ============================================================== ;;;
 ##   To execute in python terminal enter: 
 ##      1) "run integrated_model_interface.py"
-##      2) "run_simulation(bll, alpha, egs, imag, ans, nSims)" with  
+##      2) "run_simulation(mas, alpha, egs, se, ans, nSims)" with  
 ##         parameters specificed.  
 ##
 ## ============================================================== ;;;
@@ -49,7 +61,8 @@ show_output = False
 
 #Load model
 curr_dir = os.path.dirname(os.path.realpath(__file__))
-actr.load_act_r_model(os.path.join(curr_dir, "strategy-integrated-model.lisp")) #integrated-model.lisp
+actr.load_act_r_model(os.path.join(curr_dir, "spacing-effect.lisp")) #### TMH 09-2023
+actr.load_act_r_model(os.path.join(curr_dir, "strategy-integrated-model_2023.lisp")) #integrated-model.lisp
 
 ## ==============================================================
 ## Daisy chained python functions to present stimuli, get response 
@@ -71,7 +84,8 @@ def present_stim():
     
         chunks = actr.define_chunks(['isa', 'stimulus', 
             'picture', stims[i],
-            'do-strategy', str(current_strategy[i])]  )
+            'do-strategy', str(current_strategy[i]), 
+            'block_ID', block_ID[i]]) ## TMH 09-2023
 
         actr.set_buffer_chunk('visual', chunks[0])
         if(show_output):
@@ -87,7 +101,7 @@ def get_response(model, key):
     
     current_response[i] = key
    
-    return current_response
+    #return current_response
 
 
 def present_feedback():
@@ -104,7 +118,7 @@ def present_feedback():
         chunks = actr.define_chunks(['isa', 'feedback', 'feedback',feedback])
         actr.set_buffer_chunk('visual', chunks[0])
             
-        actr.schedule_event_relative(1, 'present_stim')
+       # actr.schedule_event_relative(1, 'present_stim') taken over by schedule event #### TMH 09-2023
 
         if (show_output):
             print("Feedback given: X, test phase" )
@@ -127,11 +141,11 @@ def present_feedback():
             print("Feedback given: ", feedback )
             print(accuracy)
         
-        if i == lastLearnTrial:
-            #print("BREAK HERE")
-            actr.schedule_event_relative(600, 'present_stim')
-        else:
-            actr.schedule_event_relative(1, 'present_stim')
+        #if i == lastLearnTrial:                               ## TMH 09-2023
+            #print("BREAK HERE")                               ## 
+         #   actr.schedule_event_relative(600, 'present_stim') ##
+        #else:                                                 ## 
+         #   actr.schedule_event_relative(1, 'present_stim')   ## Entire block replaced by schedule event below 
 #increase index for next stimulus
     i = i + 1
     
@@ -144,41 +158,39 @@ def model_loop():
     global win
     global accuracy
     global nTrials
-    
+    global t #TMH 09-2023
+    global i 
+
     accuracy = np.repeat(0, nTrials).tolist()
 
    
     
     #initial goal dm
     actr.define_chunks(['make-response','isa', 'goal', 'fproc','yes'])  
-  #  actr.add_dm(['test-feedback', 'isa', 'feedback', 'feedback', 'yes'])
-    
-  #  actr.add_dm('yes'); actr.add_dm('no') 
-    
-   # actr.add_dm('declarative'); actr.add_dm('procedural')
-    
-   # actr.add_dm('j'); actr.add_dm('k'); actr.add_dm('l')
-
-    #actr.add_dm('jeans'); actr.add_dm('cup'); actr.add_dm('hat'); 
-    #actr.add_dm('shirt'); actr.add_dm('plate'); actr.add_dm('gloves')
-    #actr.add_dm('shoes'); actr.add_dm('bowl'); actr.add_dm('jacket')
 
     actr.goal_focus('make-response')  
 
-    
-    #fprocessed = actr.define_chunks(['isa', 'goal', 'fproc', "yes"])
-    #actr.set_buffer_chunk('goal', fprocessed[0])
-   
     #open window for interaction
     win = actr.open_exp_window("test", visible = False)
     actr.install_device(win)
-    actr.schedule_event_relative(0, 'present_stim' )
+    #actr.schedule_event_relative(0, 'present_stim' )
     
-    #waits for a key press?
+   ########## This is the new absolute time for stimulus presentaitons! TMH 09-2023 
+    
+    for t in range(nTrials):
+
+
+        if t >= lastLearnTrial:
+
+            actr.schedule_event(((2*t) + 1680), 'present_stim')
+        
+        else:
+
+            actr.schedule_event(2 * t, 'present_stim')
+    
    
     actr.run(2000) #2000
     
-    #print(accuracy)
 
 ## ==============================================================
 ## Set up experiment
@@ -245,31 +257,11 @@ chunks = None
 current_response  = np.repeat('x', nTrials * 2).tolist() #multiply by 2 for number of blocks
 lastLearnTrial = np.size(stims3 + stims6) -1
 
+# --------TMH - 09-2023 --- New information about blocks to present to model. This should increase fan effect for set-size 6
 
+block_ID_temp = np.append(np.repeat('set_3_block', len(stims3)),np.repeat('set_6_block', len(stims6)))
+block_ID = np.append(block_ID_temp, np.repeat('test', len(teststims)))
 
-## ==============================================================
-## set up strategy distributions
-## ==============================================================
-
-RL20 = np.random.permutation(
-    np.concatenate(
-    [np.repeat(1,132*0.20) , 
-    np.repeat(2, 132 * 0.8)]))
-
-RL40 = np.random.permutation(
-    np.concatenate(
-    [np.repeat(1,132*0.4) , 
-    np.repeat(2, 132 * 0.6)]))
-
-RL60 = np.random.permutation(
-    np.concatenate(
-    [np.repeat(1,132*0.6) , 
-    np.repeat(2, 132 * 0.4)]))
-
-RL80 = np.random.permutation(
-    np.concatenate(
-    [np.repeat(1,132*0.8) , 
-    np.repeat(2, 132 * 0.20)]))
 
 ## ==============================================================
 ## set up model parameters
@@ -277,29 +269,24 @@ RL80 = np.random.permutation(
 
 
 #parameter ranges for simulation
-bll_param   = [0.3, 0.4, 0.5, 0.6, 0.7]   # decay rate of declarative memory,range around .5 actr rec val
+
+se_param = [0.28, 0.3, 0.32, 0.34, 0.36] #spacing effect parameter for rate of forgetting TMH 09-2023
+## argument for MAS range: anyting below 2.7 will result in 0 spreading activation from Block ID = set6, making the model poor at distinguishing between the set-sizes. 
+mas_param = [2.4, 2.6, 2.8, 3, 3.2]#[1.4, 1.6, 1.8, 2, 2.2, 2.4, 0.6, 0.8, 1, 1.2] # MAS parameter TMH 09-2023
 alpha_param = [0.05, 0.1, 0.15, 0.2, 0.25] # learning rate of the RL utility selection 0.2 rec val
 egs_param   = [0.1, 0.2, 0.3, 0.4, 0.5] # amount of noise added to the RL utility selection
-imag_param  = [0.1, 0.2, 0.3 , 0.4, 0.5] #simulates working memory as attentional focus 
 ans_param   = [0.1, 0.2, 0.3, 0.4, 0.5] #parameter for noise in dec. memory activation. Range recommended by ACTR manual. 
 strtg_param   = ['RL20', 'RL40', 'RL60', 'RL80'] # this is the strategy parameter - proportion of decl/proced to use.
-#[0.4, 0.5, 0.6]#
-#[0.1, 0.15, 0.2]#
-#[0.2, 0.3, 0.4]#
-#[0.2, 0.3, 0.4]
-#Integrated model params
+
+### Replaced parameters TMH - 09-2023:
+#bll_param   = [0.3, 0.4, 0.5, 0.6, 0.7]  ## replaced by spacing effects, se_param which is alpha, rate of forgetting. 
+#imag_param  = [0.1, 0.2, 0.3 , 0.4, 0.5] #  replaced by MAS parameter above
 
 #combine all params for a loop 
-params = [bll_param, alpha_param, egs_param, imag_param, ans_param, strtg_param]
+params = [mas_param, alpha_param, egs_param, se_param, ans_param, strtg_param]
 param_combs = list(itertools.product(*params))
 
-#RL model params
-#params = [alpha_param, egs_param]
-#param_combs = list(itertools.product(*params))
 
-# LTM model params
-#params = [bll_param, imag_param, ans_param]
-#param_combs = list(itertools.product(*params))
 
  ###########initialize variables to concat all outputs from simulations
 
@@ -319,8 +306,8 @@ current_strategy = [];
 ## simulator and data analysis
 ## ==============================================================
 
-
-def simulation(bll, alpha, egs, imag, ans,strtg, nSims):
+  ## function inputs updated to reflect new parameters - THM - 09-2023
+def simulation(mas, alpha, egs, se, ans, strtg, nSims):
    
     global i
     global sim_data3
@@ -329,8 +316,38 @@ def simulation(bll, alpha, egs, imag, ans,strtg, nSims):
     global accuracy
     global current_strategy
     global sim_std
+    global RL20
+    global RL40
+    global RL60
+    global RL80
     print('vars reset')
     
+## This was moved down here
+## ==============================================================
+## set up strategy distributions  
+## ==============================================================
+
+    RL20 = np.random.permutation(
+        np.concatenate(
+        [np.repeat(1,round(132*0.20)) , 
+        np.repeat(2, round(132 * 0.8))]))
+
+    RL40 = np.random.permutation(
+        np.concatenate(
+        [np.repeat(1,round(132*0.4)) , 
+        np.repeat(2, round(132 * 0.6))]))
+
+    RL60 = np.random.permutation(
+        np.concatenate(
+        [np.repeat(1,round(132*0.6)) , 
+        np.repeat(2, round(132 * 0.4))]))
+
+    RL80 = np.random.permutation(
+        np.concatenate(
+        [np.repeat(1,round(132*0.8)) , 
+        np.repeat(2, round(132 * 0.20))]))
+
+
     current_strategy = eval(strtg)
     #print(current_strategy)
         
@@ -346,13 +363,14 @@ def simulation(bll, alpha, egs, imag, ans,strtg, nSims):
         actr.reset()
         #actr.hide_output()
 
-        actr.set_parameter_value(":bll", bll)
+        actr.set_parameter_value(":mas", mas)
         actr.set_parameter_value(":alpha", alpha)
         actr.set_parameter_value(":egs", egs)
-        actr.set_parameter_value(":visual-activation", imag)#formerly imaginal activation
+        actr.set_parameter_value(":se-intercept", se)#formerly imaginal activation
         actr.set_parameter_value(":ans", ans)
         
         i = 0
+        t = 0 
         win = None
         model_loop()
 
@@ -436,11 +454,11 @@ def simulation(bll, alpha, egs, imag, ans,strtg, nSims):
 
 #                   save averaged resluts from simulations along with parameters
 
-        #sim_data.append([temp3, temp6, np.mean(test_3), np.mean(test_6), bll, alpha, egs, imag, ans ])
+        #sim_data.append([temp3, temp6, np.mean(test_3), np.mean(test_6), mas, alpha, egs, se, ans ])
         #del temp3, temp6
     #changelog: saving all instances of the simulation by moving the sim_data insidr the simulator loop
     sim_data.append([np.mean(temp3,0), np.mean(temp6,0), np.mean(np.mean(temp_test3,1)), np.mean(np.mean(temp_test6, 1)),
-     bll, alpha, egs, imag, ans, strtg])
+     mas, alpha, egs, se, ans, strtg])
     #grab stds for distribution
     sim_std.append([np.std(temp3,0), np.std(temp6,0), np.std(np.mean(temp_test3,1)), np.std(np.mean(temp_test6, 1))])
     #sim_data3 = temp_test3
@@ -453,11 +471,11 @@ def execute_sim(n,fromI,toI, frac):
 
         simulation(param_combs[i][0], param_combs[i][1],param_combs[i][2], param_combs[i][3], param_combs[i][4],param_combs[i][5], n)
       
-    sim = pd.DataFrame(sim_data, columns=['set3_learn','set6_learn', 'set3_test', 'set6_test','bll', 'alpha', 'egs', 'imag', 'ans','strtg' ])
+    sim = pd.DataFrame(sim_data, columns=['set3_learn','set6_learn', 'set3_test', 'set6_test','mas', 'alpha', 'egs', 'se', 'ans','strtg' ])
     sim_st = pd.DataFrame(sim_std, columns=['set3_learn','set6_learn', 'set3_test', 'set6_test'])
     
-    sim_st.to_pickle('./simulated_data/strategy_model/STR_std_data_' + 'frac_' +np.str(frac) +'_'+ np.str(fromI) + '_to_' + np.str(toI))  
-    sim.to_pickle('./simulated_data/strategy_model/STR_sim_data_' + 'frac_' +np.str(frac) +'_'+ np.str(fromI) + '_to_' + np.str(toI))
+    sim_st.to_pickle('./sims/STR_std_data_' + 'frac_' +np.str(frac) +'_'+ np.str(fromI) + '_to_' + np.str(toI))  
+    sim.to_pickle('./sims/STR_sim_data_' + 'frac_' +np.str(frac) +'_'+ np.str(fromI) + '_to_' + np.str(toI))
     
 
 

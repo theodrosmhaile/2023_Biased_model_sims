@@ -32,7 +32,16 @@
 ;;;           stimulus-response-outcome information is stored in DM.
 ;;;
 ;;; ============================================================== ;;;
-
+;;; ============================================================== ;;;
+;;; Change log:
+;;; 09-2023 - set visual-activation to 2
+;;;         - This version works with the longer break interface
+;;;         - This version works with absolute time presentation interface. 
+;;;         - added 'delete chunk' function to prevent duplicate chunks in 
+;;;           outcome-yes production.
+;;;         - added 'delete chunk' function in all response productions to
+;;;           prevent visual chunks from being written to DM to reduce fan effect 
+;;;
 
 
 (clear-all)
@@ -41,16 +50,14 @@
 
 (sgp :alpha 0.2
      :egs 0.1
-     :visual-activation 5.0
-     :mas 5.0
-   ;;:imaginal-activation
-     :bll 0.5
-     :ans 0.1
+     :visual-activation 2
      :er t
      :ul t
      :esc t
-     :v nil
+     :v t
      :model-warnings nil
+     :eblse t
+     :act t
           ) 
 
 ;;; --------------------------------------------------------  
@@ -216,6 +223,7 @@
      processor   free
      execution   free
 ==> 
+!eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
      cmd    punch
      hand   right
@@ -241,6 +249,7 @@
      processor   free
      execution   free
 ==> 
+!eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
      cmd    punch
      hand   right
@@ -266,6 +275,7 @@
      processor   free
      execution   free
  ==> 
+ !eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
      cmd     punch
      hand    right
@@ -293,6 +303,7 @@
      processor   free
      execution   free
 ==> 
+!eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
      cmd    punch
      hand   right
@@ -318,6 +329,7 @@
      processor   free
      execution   free
 ==> 
+!eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
      cmd punch
      hand right
@@ -343,6 +355,7 @@
      processor   free
      execution   free
    ==> 
+   !eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
    cmd punch
        hand right
@@ -370,6 +383,7 @@
      processor   free
      execution   free
 ==> 
+!eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
        cmd punch
        hand right
@@ -394,6 +408,7 @@
      processor   free
      execution   free
 ==> 
+!eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
        cmd punch
        hand right
@@ -418,6 +433,7 @@
      processor   free
      execution   free
 ==> 
+!eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
      cmd punch
        hand right
@@ -442,6 +458,7 @@
      processor   free
      execution   free
 ==> 
+!eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
        cmd punch
        hand right
@@ -466,6 +483,7 @@
      processor   free
      execution   free
 ==> 
+!eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
        cmd punch
        hand right
@@ -490,6 +508,7 @@
      processor   free
      execution   free
 ==>
+!eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
      cmd punch
      hand right
@@ -516,6 +535,7 @@
      processor   free
      execution   free
  ==> 
+ !eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
        cmd punch
        hand right
@@ -540,6 +560,7 @@
      processor   free
      execution   free
  ==>  
+ !eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
        cmd punch
        hand right
@@ -564,6 +585,7 @@
      processor   free
      execution   free
 ==>
+!eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
      cmd punch
        hand right
@@ -587,7 +609,8 @@
      preparation free
      processor   free
      execution   free
- ==>  
+ ==> 
+ !eval! (erase-buffer 'visual) ;; TMH 09-2023 
    +manual>
        cmd punch
        hand right
@@ -612,6 +635,7 @@
      processor   free
      execution   free
  ==>  
+ !eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
        cmd punch
        hand right
@@ -636,6 +660,7 @@
      processor   free
      execution   free
  ==>  
+ !eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
    cmd punch
        hand right
@@ -661,6 +686,7 @@
      processor   free
      execution   free
  ==>  
+ !eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
        cmd punch
        hand right
@@ -685,6 +711,7 @@
      processor   free
      execution   free
  ==>   
+ !eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
        cmd punch
        hand right
@@ -708,7 +735,8 @@
      preparation free
      processor   free
      execution   free
- ==>   
+ ==>  
+!eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
    cmd punch
        hand right
@@ -735,6 +763,7 @@
      processor   free
      execution   free
  ==>   
+ !eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
        cmd punch
        hand right
@@ -759,6 +788,7 @@
      processor   free
      execution   free
  ==> 
+ !eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
        cmd punch
        hand right
@@ -783,6 +813,8 @@
      processor   free
      execution   free
  ==> 
+ !eval! (erase-buffer 'visual) ;; TMH 09-2023
+
    +manual>
      cmd punch
      hand right
@@ -809,6 +841,8 @@
      processor   free
      execution   free
  ==> 
+ !eval! (erase-buffer 'visual) ;; TMH 09-2023
+
    +manual>
        cmd punch
        hand right
@@ -833,6 +867,8 @@
      processor   free
      execution   free
  ==>  
+ !eval! (erase-buffer 'visual) ;; TMH 09-2023
+
    +manual>
        cmd punch
        hand right
@@ -857,6 +893,8 @@
      processor   free
      execution   free
  ==>  
+ !eval! (erase-buffer 'visual) ;; TMH 09-2023
+
    +manual>
      cmd punch
      hand right
@@ -873,6 +911,7 @@
 (p check-memory
    =visual>
      picture =cur_pic 
+     block_ID =curr_block ;; TMH 09-2023
 
    ?visual>
      state free
@@ -896,6 +935,7 @@
    
    +imaginal>
       picture =cur_pic
+      block_ID =curr_block ;; TMH 09-2023
 
    =visual>
    )
@@ -927,6 +967,8 @@
     processor free
     execution free
 ==>
+!eval! (erase-buffer 'visual) ;; TMH 09-2023
+
   +manual>
     cmd punch
     hand right
@@ -938,7 +980,7 @@
   *goal>
     fproc no
 
-  =visual>
+ ; =visual>
   )
     
 (p response-monkey-k
@@ -963,6 +1005,8 @@
     processor free
     execution free
 ==>
+!eval! (erase-buffer 'visual) ;; TMH 09-2023
+
   +manual>
     cmd punch
     hand right
@@ -974,7 +1018,7 @@
   *goal>
     fproc no
   
-  =visual>
+  ;=visual>
   )
 
 
@@ -1001,6 +1045,8 @@
     execution free
 
 ==>
+!eval! (erase-buffer 'visual) ;; TMH 09-2023
+
   +manual>
     cmd punch
     hand right
@@ -1012,7 +1058,7 @@
   *goal>
     fproc no
 
-  =visual>
+ ; =visual>
   )
    
 ;;-------------------------------------    
@@ -1040,7 +1086,8 @@
     execution free
 
 ==>
-!eval! (erase-buffer 'retrieval )
+!eval! (erase-buffer 'retrieval ) ;; TMH 09-2023
+!eval! (erase-buffer 'visual) ;; TMH 09-2023
   +manual>
     cmd press-key
     key =k

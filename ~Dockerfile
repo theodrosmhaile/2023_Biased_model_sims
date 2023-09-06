@@ -64,15 +64,15 @@ RUN pip3 install pandas numpy seaborn matplotlib
 WORKDIR /
 
 # clone experiment
-RUN git clone https://github.com/theodrosmhaile/2023_Biased_model_sims.git
+RUN git clone https://github.com/theodrosmhaile/RLWM_ACTR.git
 
 # install actr and modify dispatcher and set-up port files
 RUN curl -LO http://act-r.psy.cmu.edu/actr7.x/actr7.x.zip
 RUN unzip /actr7.x.zip
 RUN rm /actr7.x/framework/dispatcher.lisp
 
-RUN cp /2023_Biased_model_sims/act-r* /root/
-RUN cp /2023_Biased_model_sims/port_change_actr/dispatcher.lisp  /actr7.x/framework/
+RUN cp /RLWM_ACTR/act-r* /root/
+RUN cp /RLWM_ACTR/port_change_actr/dispatcher.lisp  /actr7.x/framework/
 
 
 # rlwm actr set-up and start
