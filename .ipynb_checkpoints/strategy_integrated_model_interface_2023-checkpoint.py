@@ -271,8 +271,8 @@ block_ID = np.append(block_ID_temp, np.repeat('test', len(teststims)))
 #parameter ranges for simulation
 
 se_param = [0.28, 0.3, 0.32, 0.34, 0.36] #spacing effect parameter for rate of forgetting TMH 09-2023
-mas_param = [1.2,1.4,1.6]#,1.8,2,2.2]
-#mas_param = [2.4, 2.6, 2.8, 3, 3.2]#[1.4, 1.6, 1.8, 2, 2.2, 2.4, 0.6, 0.8, 1, 1.2] # MAS parameter TMH 09-2023
+## argument for MAS range: anyting below 2.7 will result in 0 spreading activation from Block ID = set6, making the model poor at distinguishing between the set-sizes.
+mas_param = [2.4, 2.6, 2.8, 3, 3.2]#[1.4, 1.6, 1.8, 2, 2.2, 2.4, 0.6, 0.8, 1, 1.2] # MAS parameter TMH 09-2023
 alpha_param = [0.05, 0.1, 0.15, 0.2, 0.25] # learning rate of the RL utility selection 0.2 rec val
 egs_param   = [0.1, 0.2, 0.3, 0.4, 0.5] # amount of noise added to the RL utility selection
 ans_param   = [0.1, 0.2, 0.3, 0.4, 0.5] #parameter for noise in dec. memory activation. Range recommended by ACTR manual.
@@ -477,5 +477,5 @@ def execute_sim(n,fromI,toI, frac):
     #sim_st = pd.DataFrame(sim_std, columns=['set3_learn','set6_learn', 'set3_test', 'set6_test'])
 
     #sim_st.to_pickle('./sims/STR_std_data_' + 'frac_' +np.str(frac) +'_'+ np.str(fromI) + '_to_' + np.str(toI))
-    sim.to_pickle('./sims/STR_sim_data_' + 'frac_' +str(frac) +'_'+ str(fromI) + '_to_' + str(toI))
+    sim.to_pickle('./sims/STR_sim_data_' + 'frac_' +np.str(frac) +'_'+ np.str(fromI) + '_to_' + np.str(toI))
     #sim.to_json('./sims/STR_sim_data_' + 'frac_' +np.str(frac) +'_'+ np.str(fromI) + '_to_' + np.str(toI) + '.json', orient='table')

@@ -36,11 +36,11 @@
 ;;; Change log:
 ;;; 09-2023 - set visual-activation to 2
 ;;;         - This version works with the longer break interface
-;;;         - This version works with absolute time presentation interface. 
-;;;         - added 'delete chunk' function to prevent duplicate chunks in 
+;;;         - This version works with absolute time presentation interface.
+;;;         - added 'delete chunk' function to prevent duplicate chunks in
 ;;;           outcome-yes production.
 ;;;         - added 'delete chunk' function in all response productions to
-;;;           prevent visual chunks from being written to DM to reduce fan effect 
+;;;           prevent visual chunks from being written to DM to reduce fan effect
 ;;;
 
 
@@ -54,19 +54,19 @@
      :er t
      :ul t
      :esc t
-     :v t
+     :v nil
      :model-warnings nil
      :eblse t
      :act t
-          ) 
+          )
 
-;;; --------------------------------------------------------  
+;;; --------------------------------------------------------
 ;;; ----------------Chunk types-----------------------------
 
 (chunk-type goal
             strategy
             fproc) ;; fproc= feedback processed
-    
+
 (chunk-type stimulus
             picture
             do-strategy)
@@ -81,7 +81,7 @@
 
 ;;(chunk-type do-strategy
   ;;            this-str)
-;(add-dm 
+;(add-dm
   ;;(make-response isa goal
     ;;                  fproc yes)
        ;; (test-stim isa stimulus
@@ -90,7 +90,7 @@
          ;;             feedback yes)
        ; (yes) (no)
        ; (declarative) (procedural)
-       ; (j) (k) (l) 
+       ; (j) (k) (l)
        ; (jeans) (cup) (hat)
        ; (shirt) (gloves) (shoes)
        ; (bowl) (plate) (jacket)
@@ -103,16 +103,16 @@
 ; (p choose-declarative
 ;    =visual>
 ;    - picture nil
-   
+
 ;    ?visual>
 ;      state free
 
 ;    =goal>
-;      strategy nil  
+;      strategy nil
 ;      fproc yes
 ; ==>
 ;    =visual>
-     
+
 ;    *goal>
 ;      strategy declarative
 ; )
@@ -120,16 +120,16 @@
 ; (p choose-procedural
 ;    =visual>
 ;    - picture nil
-   
+
 ;    ?visual>
 ;      state free
 
 ;    =goal>
-;      strategy nil  
+;      strategy nil
 ;      fproc yes
 ; ==>
 ;    =visual>
-     
+
 ;    *goal>
 ;      strategy procedural
 ; )
@@ -140,7 +140,7 @@
 (p set-strategy-procedural
   =visual>
    do-strategy 1
-   
+
    ?visual>
      state free
 
@@ -148,19 +148,19 @@
      strategy nil
      fproc yes
 ==>
-  
+
  =visual>
-     
+
     *goal>
       strategy procedural
-     
+
 
 )
 
 (p set-strategy-declarative
   =visual>
    do-strategy 2
-   
+
    ?visual>
      state free
 
@@ -168,12 +168,12 @@
      strategy nil
      fproc yes
 ==>
-  
+
  =visual>
-     
+
     *goal>
       strategy declarative
-    
+
 
 )
 
@@ -210,299 +210,120 @@
 (p cup-j
    =visual>
      picture cup
-   
+
    ?visual>
      state free
 
    =goal>
-     strategy procedural  
+     strategy procedural
      fproc    yes
-   
+
    ?manual>
      preparation free
      processor   free
      execution   free
-==> 
+==>
 !eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
      cmd    punch
      hand   right
-     finger index 
+     finger index
 
    *goal>
-     fproc  no    
+     fproc  no
    )
 
 (p cup-k
    =visual>
      picture cup
-   
+
    ?visual>
      state free
 
    =goal>
-     strategy procedural  
+     strategy procedural
      fproc    yes
-   
+
    ?manual>
      preparation free
      processor   free
      execution   free
-==> 
+==>
 !eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
      cmd    punch
      hand   right
-     finger middle 
+     finger middle
 
    *goal>
-     fproc no    
+     fproc no
    )
 
 (p cup-l
    =visual>
      picture cup
-   
+
    ?visual>
      state free
 
    =goal>
-     strategy procedural  
+     strategy procedural
      fproc    yes
-   
+
    ?manual>
      preparation free
      processor   free
      execution   free
- ==> 
+ ==>
  !eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
      cmd     punch
      hand    right
-     finger  ring 
+     finger  ring
 
    *goal>
-     fproc no    
+     fproc no
    )
 
 
-;;--------object 2: bowl--------------------------- 
+;;--------object 2: bowl---------------------------
 (p bowl-j
    =visual>
      picture bowl
-   
+
    ?visual>
      state free
 
    =goal>
-     strategy procedural  
+     strategy procedural
      fproc    yes
-   
+
    ?manual>
      preparation free
      processor   free
      execution   free
-==> 
+==>
 !eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
      cmd    punch
      hand   right
-     finger index 
+     finger index
 
    *goal>
-     fproc  no    
+     fproc  no
    )
 
 (p bowl-k
    =visual>
      picture bowl
-   
+
    ?visual>
      state free
 
    =goal>
-     strategy procedural  
+     strategy procedural
      fproc    yes
-   
-   ?manual>
-     preparation free
-     processor   free
-     execution   free
-==> 
-!eval! (erase-buffer 'visual) ;; TMH 09-2023
-   +manual>
-     cmd punch
-     hand right
-     finger middle 
 
-   *goal>
-     fproc no    
-   )
-
-(p bowl-l
-   =visual>
-     picture bowl
-   
-   ?visual>
-     state free
-
-   =goal>
-     strategy procedural  
-     fproc    yes
-   
-   ?manual>
-     preparation free
-     processor   free
-     execution   free
-   ==> 
-   !eval! (erase-buffer 'visual) ;; TMH 09-2023
-   +manual>
-   cmd punch
-       hand right
-       finger ring 
-   *goal>
-       fproc no    
-   )
-    
-    
-    
-;;---------object 3: plate-------------------------- 
-(p plate-j
-   =visual>
-     picture plate
-   
-   ?visual>
-     state free
-
-   =goal>
-     strategy procedural  
-     fproc    yes
-   
-   ?manual>
-     preparation free
-     processor   free
-     execution   free
-==> 
-!eval! (erase-buffer 'visual) ;; TMH 09-2023
-   +manual>
-       cmd punch
-       hand right
-       finger index 
-   *goal>
-       fproc no    
-   )
-
-(p plate-k
-   =visual>
-     picture plate
-   
-   ?visual>
-     state free
-
-   =goal>
-     strategy procedural  
-     fproc    yes
-   
-   ?manual>
-     preparation free
-     processor   free
-     execution   free
-==> 
-!eval! (erase-buffer 'visual) ;; TMH 09-2023
-   +manual>
-       cmd punch
-       hand right
-       finger middle 
-   *goal>
-       fproc no    
-   )
-
-(p plate-l
-   =visual>
-     picture plate
-   
-   ?visual>
-     state free
-
-   =goal>
-     strategy procedural  
-     fproc    yes
-   
-   ?manual>
-     preparation free
-     processor   free
-     execution   free
-==> 
-!eval! (erase-buffer 'visual) ;; TMH 09-2023
-   +manual>
-     cmd punch
-       hand right
-       finger ring 
-   *goal>
-       fproc no    
-   )
-;;--------------- object 4: hat------------------
-(p hat-j
-   =visual>
-     picture hat
-   
-   ?visual>
-     state free
-
-   =goal>
-     strategy procedural  
-     fproc    yes
-   
-   ?manual>
-     preparation free
-     processor   free
-     execution   free
-==> 
-!eval! (erase-buffer 'visual) ;; TMH 09-2023
-   +manual>
-       cmd punch
-       hand right
-       finger index 
-   *goal>
-       fproc no    
-   )
-
-(p hat-k
-   =visual>
-     picture hat
-   
-   ?visual>
-     state free
-
-   =goal>
-     strategy procedural  
-     fproc    yes
-   
-   ?manual>
-     preparation free
-     processor   free
-     execution   free
-==> 
-!eval! (erase-buffer 'visual) ;; TMH 09-2023
-   +manual>
-       cmd punch
-       hand right
-       finger middle 
-   *goal>
-       fproc no    
-   )
-
-(p hat-l
-   =visual>
-     picture hat
-   
-   ?visual>
-     state free
-
-   =goal>
-     strategy procedural  
-     fproc    yes
-   
    ?manual>
      preparation free
      processor   free
@@ -512,74 +333,253 @@
    +manual>
      cmd punch
      hand right
-     finger ring 
+     finger middle
 
    *goal>
-     fproc no    
+     fproc no
+   )
+
+(p bowl-l
+   =visual>
+     picture bowl
+
+   ?visual>
+     state free
+
+   =goal>
+     strategy procedural
+     fproc    yes
+
+   ?manual>
+     preparation free
+     processor   free
+     execution   free
+   ==>
+   !eval! (erase-buffer 'visual) ;; TMH 09-2023
+   +manual>
+   cmd punch
+       hand right
+       finger ring
+   *goal>
+       fproc no
+   )
+
+
+
+;;---------object 3: plate--------------------------
+(p plate-j
+   =visual>
+     picture plate
+
+   ?visual>
+     state free
+
+   =goal>
+     strategy procedural
+     fproc    yes
+
+   ?manual>
+     preparation free
+     processor   free
+     execution   free
+==>
+!eval! (erase-buffer 'visual) ;; TMH 09-2023
+   +manual>
+       cmd punch
+       hand right
+       finger index
+   *goal>
+       fproc no
+   )
+
+(p plate-k
+   =visual>
+     picture plate
+
+   ?visual>
+     state free
+
+   =goal>
+     strategy procedural
+     fproc    yes
+
+   ?manual>
+     preparation free
+     processor   free
+     execution   free
+==>
+!eval! (erase-buffer 'visual) ;; TMH 09-2023
+   +manual>
+       cmd punch
+       hand right
+       finger middle
+   *goal>
+       fproc no
+   )
+
+(p plate-l
+   =visual>
+     picture plate
+
+   ?visual>
+     state free
+
+   =goal>
+     strategy procedural
+     fproc    yes
+
+   ?manual>
+     preparation free
+     processor   free
+     execution   free
+==>
+!eval! (erase-buffer 'visual) ;; TMH 09-2023
+   +manual>
+     cmd punch
+       hand right
+       finger ring
+   *goal>
+       fproc no
+   )
+;;--------------- object 4: hat------------------
+(p hat-j
+   =visual>
+     picture hat
+
+   ?visual>
+     state free
+
+   =goal>
+     strategy procedural
+     fproc    yes
+
+   ?manual>
+     preparation free
+     processor   free
+     execution   free
+==>
+!eval! (erase-buffer 'visual) ;; TMH 09-2023
+   +manual>
+       cmd punch
+       hand right
+       finger index
+   *goal>
+       fproc no
+   )
+
+(p hat-k
+   =visual>
+     picture hat
+
+   ?visual>
+     state free
+
+   =goal>
+     strategy procedural
+     fproc    yes
+
+   ?manual>
+     preparation free
+     processor   free
+     execution   free
+==>
+!eval! (erase-buffer 'visual) ;; TMH 09-2023
+   +manual>
+       cmd punch
+       hand right
+       finger middle
+   *goal>
+       fproc no
+   )
+
+(p hat-l
+   =visual>
+     picture hat
+
+   ?visual>
+     state free
+
+   =goal>
+     strategy procedural
+     fproc    yes
+
+   ?manual>
+     preparation free
+     processor   free
+     execution   free
+==>
+!eval! (erase-buffer 'visual) ;; TMH 09-2023
+   +manual>
+     cmd punch
+     hand right
+     finger ring
+
+   *goal>
+     fproc no
    )
 ;;--------------object 5: gloves------------------
 
 (p gloves-j
    =visual>
      picture gloves
-   
+
    ?visual>
      state free
 
    =goal>
-     strategy procedural  
+     strategy procedural
      fproc    yes
-   
+
    ?manual>
      preparation free
      processor   free
      execution   free
- ==> 
+ ==>
  !eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
        cmd punch
        hand right
-       finger index 
+       finger index
    *goal>
-       fproc no    
+       fproc no
    )
 
 (p gloves-k
    =visual>
      picture gloves
-   
+
    ?visual>
      state free
 
    =goal>
-     strategy procedural  
+     strategy procedural
      fproc    yes
-   
+
    ?manual>
      preparation free
      processor   free
      execution   free
- ==>  
+ ==>
  !eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
        cmd punch
        hand right
-       finger middle 
+       finger middle
    *goal>
-       fproc no    
+       fproc no
    )
 
 (p gloves-l
    =visual>
      picture gloves
-   
+
    ?visual>
      state free
 
    =goal>
-     strategy procedural  
+     strategy procedural
      fproc    yes
-   
+
    ?manual>
      preparation free
      processor   free
@@ -589,318 +589,318 @@
    +manual>
      cmd punch
        hand right
-       finger ring 
+       finger ring
    *goal>
-       fproc no    
+       fproc no
    )
  ;;--------------- object 6: shoes-----------------------
 (p shoes-j
    =visual>
      picture shoes
-   
+
    ?visual>
      state free
 
    =goal>
-     strategy procedural  
+     strategy procedural
      fproc    yes
-   
+
    ?manual>
      preparation free
      processor   free
      execution   free
- ==> 
- !eval! (erase-buffer 'visual) ;; TMH 09-2023 
+ ==>
+ !eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
        cmd punch
        hand right
-       finger index 
+       finger index
    *goal>
-       fproc no    
+       fproc no
    )
 
 (p shoes-k
    =visual>
      picture shoes
-   
+
    ?visual>
      state free
 
    =goal>
-     strategy procedural  
+     strategy procedural
      fproc    yes
-   
+
    ?manual>
      preparation free
      processor   free
      execution   free
- ==>  
+ ==>
  !eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
        cmd punch
        hand right
-       finger middle 
+       finger middle
    *goal>
-       fproc no    
+       fproc no
    )
 
 (p shoes-l
    =visual>
      picture shoes
-   
+
    ?visual>
      state free
 
    =goal>
-     strategy procedural  
+     strategy procedural
      fproc    yes
-   
+
    ?manual>
      preparation free
      processor   free
      execution   free
- ==>  
+ ==>
  !eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
    cmd punch
        hand right
-       finger ring 
+       finger ring
    *goal>
-       fproc no    
+       fproc no
    )
-    
+
 ;;--------------- object 7: shirt ------------------------
 (p shirt-j
    =visual>
      picture shirt
-   
+
    ?visual>
      state free
 
    =goal>
-     strategy procedural  
+     strategy procedural
      fproc    yes
-   
+
    ?manual>
      preparation free
      processor   free
      execution   free
- ==>  
+ ==>
  !eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
        cmd punch
        hand right
-       finger index 
+       finger index
    *goal>
-       fproc no    
+       fproc no
    )
 
 (p shirt-k
    =visual>
      picture shirt
-   
+
    ?visual>
      state free
 
    =goal>
-     strategy procedural  
+     strategy procedural
      fproc    yes
-   
+
    ?manual>
      preparation free
      processor   free
      execution   free
- ==>   
+ ==>
  !eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
        cmd punch
        hand right
-       finger middle 
+       finger middle
    *goal>
-       fproc no    
+       fproc no
    )
 
 (p shirt-l
    =visual>
      picture shirt
-   
+
    ?visual>
      state free
 
    =goal>
-     strategy procedural  
+     strategy procedural
      fproc    yes
-   
+
    ?manual>
      preparation free
      processor   free
      execution   free
- ==>  
+ ==>
 !eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
    cmd punch
        hand right
-       finger ring 
+       finger ring
    *goal>
-       fproc no    
+       fproc no
    )
-    
-;;--------------- object 8: jacket ------------------------    
-    
+
+;;--------------- object 8: jacket ------------------------
+
 (p jacket-j
    =visual>
      picture jacket
-   
+
    ?visual>
      state free
 
    =goal>
-     strategy procedural  
+     strategy procedural
      fproc    yes
-   
+
    ?manual>
      preparation free
      processor   free
      execution   free
- ==>   
+ ==>
  !eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
        cmd punch
        hand right
-       finger index 
+       finger index
    *goal>
-       fproc no    
+       fproc no
    )
 
 (p jacket-k
    =visual>
      picture jacket
-   
+
    ?visual>
      state free
 
    =goal>
-     strategy procedural  
+     strategy procedural
      fproc    yes
-   
+
    ?manual>
      preparation free
      processor   free
      execution   free
- ==> 
+ ==>
  !eval! (erase-buffer 'visual) ;; TMH 09-2023
    +manual>
        cmd punch
        hand right
-       finger middle 
+       finger middle
    *goal>
-       fproc no    
+       fproc no
    )
 
 (p jacket-l
    =visual>
      picture jacket
-   
+
    ?visual>
      state free
 
    =goal>
-     strategy procedural  
+     strategy procedural
      fproc    yes
-   
+
    ?manual>
      preparation free
      processor   free
      execution   free
- ==> 
+ ==>
  !eval! (erase-buffer 'visual) ;; TMH 09-2023
 
    +manual>
      cmd punch
      hand right
-     finger ring 
+     finger ring
    *goal>
-       fproc no    
-   )   
-    
-;;--------------- object 9: jeans ------------------------ 
+       fproc no
+   )
+
+;;--------------- object 9: jeans ------------------------
 
 (p jeans-j
    =visual>
      picture jeans
-   
+
    ?visual>
      state free
 
    =goal>
-     strategy procedural  
+     strategy procedural
      fproc    yes
-   
+
    ?manual>
      preparation free
      processor   free
      execution   free
- ==> 
+ ==>
  !eval! (erase-buffer 'visual) ;; TMH 09-2023
 
    +manual>
        cmd punch
        hand right
-       finger index 
+       finger index
    *goal>
-       fproc no    
+       fproc no
    )
 
 (p jeans-k
    =visual>
      picture jeans
-   
+
    ?visual>
      state free
 
    =goal>
-     strategy procedural  
+     strategy procedural
      fproc    yes
-   
+
    ?manual>
      preparation free
      processor   free
      execution   free
- ==>  
+ ==>
  !eval! (erase-buffer 'visual) ;; TMH 09-2023
 
    +manual>
        cmd punch
        hand right
-       finger middle 
+       finger middle
    *goal>
-       fproc no    
+       fproc no
    )
 
 (p jeans-l
    =visual>
      picture jeans
-   
+
    ?visual>
      state free
 
    =goal>
-     strategy procedural  
+     strategy procedural
      fproc    yes
-   
+
    ?manual>
      preparation free
      processor   free
      execution   free
- ==>  
+ ==>
  !eval! (erase-buffer 'visual) ;; TMH 09-2023
 
    +manual>
      cmd punch
      hand right
-     finger ring 
+     finger ring
    *goal>
-       fproc no    
+       fproc no
    )
 
 
@@ -910,7 +910,7 @@
 
 (p check-memory
    =visual>
-     picture =cur_pic 
+     picture =cur_pic
      block_ID =curr_block ;; TMH 09-2023
 
    ?visual>
@@ -919,20 +919,20 @@
    ?imaginal>
      state free
      buffer empty
-     
+
    =goal>
-     strategy declarative  
+     strategy declarative
      fproc    yes
-    
+
    ?retrieval>
      state free
    - buffer full
   ==>
-       
-   +retrieval> 
+
+   +retrieval>
       picture =cur_pic
       outcome yes
-   
+
    +imaginal>
       picture =cur_pic
       block_ID =curr_block ;; TMH 09-2023
@@ -940,7 +940,7 @@
    =visual>
    )
 
-;;-------------------------------------    
+;;-------------------------------------
 ;; Depending on outcome: yes or no (retrieval error)
 ;;outcome is no (retrieval error): make random response (3 possible)
 ;;-------------------------------------
@@ -956,9 +956,9 @@
     associated-key nil
 
   =goal>
-    strategy declarative   
+    strategy declarative
     fproc    yes
-    
+
   =visual>
   - picture nil
 
@@ -976,19 +976,19 @@
 
   =imaginal>
     associated-key j
-  
+
   *goal>
     fproc no
 
  ; =visual>
   )
-    
+
 (p response-monkey-k
   ?retrieval>
     state error
 
   =goal>
-    strategy declarative   
+    strategy declarative
     fproc    yes
 
   =visual>
@@ -1017,7 +1017,7 @@
 
   *goal>
     fproc no
-  
+
   ;=visual>
   )
 
@@ -1033,9 +1033,9 @@
     state free
 
   =goal>
-    strategy declarative   
+    strategy declarative
     fproc    yes
-    
+
   =imaginal>
     associated-key nil
 
@@ -1060,15 +1060,15 @@
 
  ; =visual>
   )
-   
-;;-------------------------------------    
-;;outcome is yes: make response based on memory 
+
+;;-------------------------------------
+;;outcome is yes: make response based on memory
 ;;-------------------------------------
 
 (p outcome-yes
-  
-  =retrieval> 
-    outcome yes 
+
+  =retrieval>
+    outcome yes
     associated-key =k
 
   =goal>
@@ -1079,7 +1079,7 @@
 
   =imaginal>
     associated-key nil
-  
+
   ?manual>
     preparation free
     processor free
@@ -1094,9 +1094,9 @@
 
   *imaginal>
     associated-key =k
-  
+
   *goal>
-    fproc no   
+    fproc no
 )
 
 
@@ -1105,7 +1105,7 @@
 ;;; PROCESS FEEDBACK
 ;;; ============================================================== ;;;
 
-(p parse-feedback-yes  
+(p parse-feedback-yes
    =visual>
      feedback yes
 
@@ -1113,7 +1113,7 @@
      state free
 
    =goal>
-   - strategy nil   
+   - strategy nil
      fproc no
 ==>
    =visual>
@@ -1144,19 +1144,19 @@
    "Encodes the visual response"
   =visual>
     feedback =f
-   
+
   ?imaginal>
     state free
-  
+
 
   =goal>
     strategy procedural
     fproc    yes
-  
-==> 
+
+==>
   *goal>
     strategy nil
-  
+
   =visual>
 )
 
@@ -1164,18 +1164,18 @@
    "Encodes the visual response"
   =visual>
     feedback =f
-   
+
   ?imaginal>
     state free
 
   =goal>
-    strategy declarative  
+    strategy declarative
     fproc    yes
-  
+
   =imaginal>
-    outcome nil	
-	
-==> 
+    outcome nil
+
+==>
   *imaginal>
     outcome =f
 
@@ -1189,26 +1189,26 @@
     feedback =f
 
   =goal>
-    strategy declarative  
+    strategy declarative
     fproc    yes
-    
+
   =imaginal>
-  - outcome nil	
-	
+  - outcome nil
+
 ==>
   *goal>
     strategy nil
-  -visual>  
+  -visual>
   -imaginal>
-) 
+)
 
 
 
-;;;--------------------------------------------------------    
+;;;--------------------------------------------------------
 ;;; INITIALIZATION
-;;;--------------------------------------------------------    
-      
- 
+;;;--------------------------------------------------------
+
+
 (spp parse-feedback-yes :reward +1)
 (spp parse-feedback-no :reward -1)
 
