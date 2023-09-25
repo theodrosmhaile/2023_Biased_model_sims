@@ -22,7 +22,7 @@ shinyUI(
     radioButtons(inputId = "modelselect", 
                        label= "Select Model to display", 
                        choices = c("RL only", "LTM only", "RL-LTM Strategy", "Meta-RL"), 
-                       selected = "LTM only", inline = TRUE
+                       selected = "RL-LTM Strategy", inline = TRUE
                        
                        ),
     # Sidebar with a slider input for number of bins
@@ -48,10 +48,10 @@ shinyUI(
        
             sliderInput("mas",
                         "Attention/WM (MAS):",
-                        min = 0.1,
-                        max = 0.5,
-                        value = .1, 
-                        step = .1, 
+                        min = 1.2,
+                        max = 3.2,
+                        value = 2, 
+                        step = .2, 
                         animate = TRUE),
      
             sliderInput("ans",
@@ -64,11 +64,19 @@ shinyUI(
         
             sliderInput("se",
                         "LTM decay rate (SE):",
-                        min = 0.3,
-                        max = 0.7,
-                        value = 0.3, 
-                        step = 0.1, 
-                        animate = TRUE)
+                        min = 0.28,
+                        max = 0.36,
+                        value = 0.2, 
+                        step = 0.02, 
+                        animate = TRUE), 
+            sliderInput("bias", 
+                        "% RL Use:",
+                        min = 20,
+                        max = 80, 
+                        value = 40, 
+                        step = 20,
+                        animate = TRUE
+                        )
        ),
        
         # Show a plot of the generated distribution

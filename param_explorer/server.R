@@ -8,11 +8,16 @@
 
 library(shiny)
 library(jsonlite)
+library(tidyverse)
 
-simsRL_LTM <- fromJSON('sim_data_all_params_integrated_model_100s_031620.JSON')
-simsRL     <- fromJSON('sim_data_all_params_RL_100s_031620.JSON')
-simsLTM    <- fromJSON('LTM_simdata_0708.JSON')#('LTM_visual_activation_allparams_evals26.JSON')#'03_mod_LTM_all_brokenTest.JSON')#fromJSON('03_mod_LTM_all.JSON') #fromJSON('sim_data_all_params_LTM_100s_031620.JSON') 
-#sims_meta
+simsRL_LTM <- fromJSON('STR_sims_2023.JSON')$data %>%
+    mutate(strtg=str_remove_all(strtg, "[:alpha:]") %>% 
+               as.numeric())
+
+simsRL     <- fromJSON('RL_sim_data_07_12_2022.JSON')$data
+simsLTM    <- fromJSON('SE_LTM_sims_2023.JSON')$data
+
+sims_meta  <- fromJSON('meta_rl_model_2023.JSON')$data
 iter.n <- c(1:12)
 
 # Define server logic required to draw a histogram
@@ -22,12 +27,13 @@ shinyServer(function(input, output) {
 
 # Based on chosen model, this selects the right data and set of parameters. 
         if (input$modelselect == "RL only") {
-            temp <- simsRL$data
+            temp <- simsRL
             ind  <- (temp$alpha    == input$alpha & 
-                         temp$se  == 0 &  
-                         temp$ans  == 0 &
-                         temp$egs  == input$egs & 
-                         temp$mas == 0)
+                        # temp$se  == 0 &  
+                         #temp$ans  == 0 &
+                         temp$egs  == input$egs 
+                        # temp$mas == 0
+                         )
             
             
             set3.dat <- unlist(temp$set3_learn[ind])
@@ -37,7 +43,7 @@ shinyServer(function(input, output) {
         
         if (input$modelselect == "LTM only") {
             
-            temp <- simsLTM$data
+            temp <- simsLTM
             ind  <- (temp$alpha    == 0 & 
                          temp$se  == input$se &  
                          temp$ans  == input$ans &
@@ -48,15 +54,17 @@ shinyServer(function(input, output) {
             set3.dat <- unlist(temp$set3_learn[ind])
             set6.dat <- unlist(temp$set6_learn[ind])
         }
-        if (input$modelselect == "RL-LTM integrated") {
+        
+        if (input$modelselect == "RL-LTM Strategy") {
             
-            temp <- simsRL_LTM$data
+            temp <- simsRL_LTM
+            
             ind  <- (temp$alpha    == input$alpha & 
                          temp$se  == input$se &  
                          temp$ans  == input$ans &
                          temp$egs  == input$egs & 
-                         temp$mas == input$mas, 
-                         temp%bias)
+                         temp$mas == input$mas & 
+                         temp$strtg == input$bias)
             
             
             set3.dat <- unlist(temp$set3_learn[ind])
@@ -65,7 +73,7 @@ shinyServer(function(input, output) {
         }
         if (input$modelselect == "Meta-RL") {
             
-            temp <- sims_meta$data
+            temp <- sims_meta
             ind  <- (temp$alpha    == input$alpha & 
                          temp$se  == input$se &  
                          temp$ans  == input$ans &
@@ -79,17 +87,7 @@ shinyServer(function(input, output) {
         }
          
         
-        #Force in to data frame for lm function
         
-        tempframe.3 <- data.frame("accuracy"   = set3.dat,
-                                  "iterations" = iter.n )
-        tempframe.6 <- data.frame("accuracy"   = set6.dat,
-                                  "iterations" = iter.n )
-        
-        # compute y.pred to plot fit
-        
-        temp.lm.3 <- lm(accuracy ~ poly(iterations,2), data = tempframe.3)
-        temp.lm.6 <- lm(accuracy ~ poly(iterations,2), data = tempframe.6)    
         
 # plot data points
         plot(iter.n, set3.dat, 
@@ -105,61 +103,37 @@ shinyServer(function(input, output) {
         
 #draw fitted lines
         
-        lines(tempframe.3$iterations,temp.lm.3$fitted.values,lwd=4.3, col = '#e41a1c')
-        lines(tempframe.6$iterations,temp.lm.6$fitted.values,lwd=4.3, col = '#377eb8')
+        lines(iter.n, set3.dat, lwd=4.3, col = '#e41a1c')
+        lines(iter.n, set6.dat, lwd=4.3, col = '#377eb8')
         
         legend("bottomright", c("set size 3", "set size 6"),pch = c( 19, 19),
                text.col =c( "#e41a1c","#377eb8"), col = c("#e41a1c","#377eb8"))
+       
         
+        
+        output$barPlot <- renderPlot({
+            
+            
+            barplot(c(temp$set3_test[ind], temp$set6_test[ind] ), 
+                    c(1,1), ylab = 'Accuracy',
+                    xlab = 'set size', 
+                    col = c('#e41a1c', '#377eb8'),
+                    ylim = c(0, 1), 
+                    main = 'Test Accuracy')
+        
+        return(temp) 
+        return(ind)
     })
-   output$barPlot <- renderPlot({
-       
-       if (input$modelselect == "RL only") {
-           temp <- simsRL$data
-           ind  <- (temp$alpha    == input$al & 
-                        temp$bll  == 0 &  
-                        temp$ans  == 0 &
-                        temp$egs  == input$e & 
-                        temp$imag == 0)
-           
-           
-           set3.dat <- unlist(temp$set3_learn[ind])
-           set6.dat <- unlist(temp$set6_learn[ind])
-           
-       }
-       
-       if (input$modelselect == "LTM only") {
-           
-           temp <- simsLTM$data
-           ind  <- (temp$alpha    == 0 & 
-                        temp$bll  == input$b &  
-                        temp$ans  == input$an &
-                        temp$egs  == 0 & 
-                        temp$imag == input$i)
-           
-           
-           set3.dat <- unlist(temp$set3_learn[ind])
-           set6.dat <- unlist(temp$set6_learn[ind])
-       }
-       if (input$modelselect == "RL-LTM integrated") {
-           
-           temp <- simsRL_LTM$data
-           ind  <- (temp$alpha    == input$al & 
-                        temp$bll  == input$b &  
-                        temp$ans  == input$an &
-                        temp$egs  == input$e & 
-                        temp$imag == input$i)
-           
-           
-           set3.dat <- unlist(temp$set3_learn[ind])
-           set6.dat <- unlist(temp$set6_learn[ind])
-           
-       }
-       
-        barplot(c(temp$set3_test[ind], temp$set6_test[ind] ), 
-                c(1,1),ylab = 'Accuracy', xlab = 'set size', 
-                col = c('#e41a1c', '#377eb8'), ylim = c(0, 1), 
-                main = 'Test Accuracy')
+    
+   # output$barPlot <- renderPlot({
+   #     
+   # 
+   #      barplot(c(temp$set3_test[ind], temp$set6_test[ind] ), 
+   #              c(1,1), ylab = 'Accuracy',
+   #              xlab = 'set size', 
+   #              col = c('#e41a1c', '#377eb8'),
+   #              ylim = c(0, 1), 
+   #              main = 'Test Accuracy')
 
         
     })

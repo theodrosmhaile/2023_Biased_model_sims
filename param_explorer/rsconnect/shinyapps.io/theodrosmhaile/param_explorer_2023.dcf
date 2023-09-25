@@ -1,0 +1,12 @@
+name: param_explorer_2023
+title: param_explorer_2023
+username: theodrosmhaile
+account: theodrosmhaile
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 9907897
+bundleId: 7699870
+url: https://theodrosmhaile.shinyapps.io/param_explorer_2023/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE

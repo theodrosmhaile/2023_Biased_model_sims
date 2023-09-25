@@ -270,8 +270,8 @@ block_ID = np.append(block_ID_temp, np.repeat('test', len(teststims)))
 
 #parameter ranges for simulation
 
-se_param = [0.28, 0.3, 0.32, 0.34, 0.36] #spacing effect parameter for rate of forgetting TMH 09-2023
-
+#se_param = [0.28,.29, 0.3,.31, 0.32,.33, 0.34,.35, 0.36] #spacing effect parameter for rate of forgetting TMH 09-2023
+se_param = [.37, .38]
 mas_param = [1.2, 1.4, 1.6, 1.8, 2, 2.2, 2.4, 2.6, 2.8, 3, 3.2] #MAS parameter TMH 09-2023
 alpha_param = [0.05, 0.1, 0.15, 0.2, 0.25] # learning rate of the RL utility selection 0.2 rec val
 egs_param   = [0.1, 0.2, 0.3, 0.4, 0.5] # amount of noise added to the RL utility selection
