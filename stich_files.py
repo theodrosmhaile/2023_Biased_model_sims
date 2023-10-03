@@ -7,7 +7,7 @@ import pandas as pd
 import numpy as np
 import glob
 study = 'strategy_model/'
-loc = './sims/str/' 
+loc = './sims/' 
 files =  glob.glob(loc + 'STR*')#'STR*'
 files.sort()
 

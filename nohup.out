@@ -1,0 +1,166 @@
+This is SBCL 1.5.8, an implementation of ANSI Common Lisp.
+More information about SBCL is available at <http://www.sbcl.org/>.
+
+SBCL is free software, provided as is, with absolutely no warranty.
+It is mostly in the public domain; some portions are provided under
+BSD-style licenses.  See the CREDITS and COPYING files in the
+distribution for more information.
+To load "bordeaux-threads":
+  Load 1 ASDF system:
+    bordeaux-threads
+; Loading "bordeaux-threads"
+
+To load "usocket":
+  Load 1 ASDF system:
+    usocket
+; Loading "usocket"
+
+To load "cl-json":
+  Load 1 ASDF system:
+    cl-json
+; Loading "cl-json"
+
+WARNING:
+   redefining JSON:ENCODE-JSON (#<BUILT-IN-CLASS COMMON-LISP:SYMBOL>) in DEFMETHOD
+Trying to open server at "127.0.1.1":2650
+Could not open a socket for host "127.0.1.1" port 2650 because it is already open
+Trying to open server at "127.0.1.1":2651
+Server started on port 2651
+Error #<SB-INT:SIMPLE-FILE-ERROR "~@<The path ~2I~_~S ~I~_does not exist.~:>" {1001BCB173}> occurred while trying to write the Environment network config file #P"/projects/actr/actr7.x/environment/gui/init/05-current-net.tcl"
+
+The ACT-R remote command dispatcher has been started
+
+##################################
+ACT-R 7 Version Information:
+Software              : 7.21.2-<internal> 
+=================================================
+Components
+-------------------------------------------------
+AGI             : 5.0        Manager for the AGI windows
+CHUNK-SPEC      : 3.0        Maintains a table of chunk-specs for remote use
+CURSOR-TABLE    : 4.0        Record the cursor devices that are used.
+HISTORY-RECORDER: 2.0        Maintain the tables of defined history recorders and state of non-model based history streams.
+KEYBOARD-TABLE  : 3.1        Record the keyboards used for each model.
+NAMING          : 2.0        Provides new symbol generation for the system.
+STEPPER         : 6.2        Stepper interface global information
+TRACE-HISTORY   : 1.0        Component for recording trace information
+=================================================
+Modules
+-------------------------------------------------
+AUDICON-HISTORY       : 3.1        Module to record audicon changes.
+AUDIO                 : 6.0        A module which gives the model an auditory attentional system
+BOLD                  : 4.2        A module to produce BOLD response predictions from buffer request activity.
+BUFFER-HISTORY        : 2.1        Module to record buffer change history.
+BUFFER-PARAMS         : 1.0        Module to hold and control the buffer parameters
+BUFFER-TRACE          : 3.1        A module that provides a buffer based history mechanism.
+CENTRAL-PARAMETERS    : 1.3        a module that maintains parameters used by other modules
+DECLARATIVE           : 6.7        The declarative memory module stores chunks from the buffers for retrieval
+DEVICE                : 7.2        The device interface for a model
+GOAL                  : 2.2        The goal module creates new goals for the goal buffer
+HISTORY-RECORDER      : 2.1        Module to support the saving and accessing of information as a model runs.
+IMAGINAL              : 5.0        The imaginal module provides a goal style buffer with a delay and an action buffer for manipulating the imaginal chunk
+MOTOR                 : 8.0        Module to provide a model with virtual hands
+NAMING-MODULE         : 2.1        Provides safe and repeatable new name generation for models.
+PRINTING-MODULE       : 1.4        Coordinates output of the model.
+PROCEDURAL            : 8.1        The procedural module handles production definition and execution
+PRODUCTION-COMPILATION: 4.2        A module that assists the primary procedural module with compiling productions
+PRODUCTION-HISTORY    : 2.1        Module to record production history for display in the environment.
+RANDOM-MODULE         : 1.1        Provide a good and consistent source of pseudorandom numbers for all systems
+RETRIEVAL-HISTORY     : 2.1        Module to record retrieval history data.
+SPEECH                : 7.0        A module to provide a model with the ability to speak
+STEPPER               : 6.2        Store the model specific information for the stepper interface.
+TEMPORAL              : 3.1        The temporal module is used to estimate short time intervals
+UTILITY               : 5.1        A module that computes production utilities
+VISICON-HISTORY       : 3.1        Module to record visicon changes.
+VISION                : 9.0        A module to provide a model with a visual attention system
+
+######### Loading of ACT-R 7 is complete #########
+* 
+debugger invoked on a SB-INT:SIMPLE-STREAM-ERROR in thread
+#<THREAD "main thread" RUNNING {10005604C3}>:
+  couldn't read from #<SB-SYS:FD-STREAM for "standard input" {1004D98CE3}>:
+    Bad file descriptor
+This is SBCL 1.5.8, an implementation of ANSI Common Lisp.
+More information about SBCL is available at <http://www.sbcl.org/>.
+
+SBCL is free software, provided as is, with absolutely no warranty.
+It is mostly in the public domain; some portions are provided under
+BSD-style licenses.  See the CREDITS and COPYING files in the
+distribution for more information.
+To load "bordeaux-threads":
+  Load 1 ASDF system:
+    bordeaux-threads
+; Loading "bordeaux-threads"
+
+To load "usocket":
+  Load 1 ASDF system:
+    usocket
+; Loading "usocket"
+
+To load "cl-json":
+  Load 1 ASDF system:
+    cl-json
+; Loading "cl-json"
+
+WARNING:
+   redefining JSON:ENCODE-JSON (#<BUILT-IN-CLASS COMMON-LISP:SYMBOL>) in DEFMETHOD
+Trying to open server at "127.0.1.1":2650
+Could not open a socket for host "127.0.1.1" port 2650 because it is already open
+Trying to open server at "127.0.1.1":2651
+Could not open a socket for host "127.0.1.1" port 2651 because it is already open
+Trying to open server at "127.0.1.1":2652
+Server started on port 2652
+Error #<SB-INT:SIMPLE-FILE-ERROR "~@<The path ~2I~_~S ~I~_does not exist.~:>" {1001BC39F3}> occurred while trying to write the Environment network config file #P"/projects/actr/actr7.x/environment/gui/init/05-current-net.tcl"
+
+The ACT-R remote command dispatcher has been started
+
+##################################
+ACT-R 7 Version Information:
+Software              : 7.21.2-<internal> 
+=================================================
+Components
+-------------------------------------------------
+AGI             : 5.0        Manager for the AGI windows
+CHUNK-SPEC      : 3.0        Maintains a table of chunk-specs for remote use
+CURSOR-TABLE    : 4.0        Record the cursor devices that are used.
+HISTORY-RECORDER: 2.0        Maintain the tables of defined history recorders and state of non-model based history streams.
+KEYBOARD-TABLE  : 3.1        Record the keyboards used for each model.
+NAMING          : 2.0        Provides new symbol generation for the system.
+STEPPER         : 6.2        Stepper interface global information
+TRACE-HISTORY   : 1.0        Component for recording trace information
+=================================================
+Modules
+-------------------------------------------------
+AUDICON-HISTORY       : 3.1        Module to record audicon changes.
+AUDIO                 : 6.0        A module which gives the model an auditory attentional system
+BOLD                  : 4.2        A module to produce BOLD response predictions from buffer request activity.
+BUFFER-HISTORY        : 2.1        Module to record buffer change history.
+BUFFER-PARAMS         : 1.0        Module to hold and control the buffer parameters
+BUFFER-TRACE          : 3.1        A module that provides a buffer based history mechanism.
+CENTRAL-PARAMETERS    : 1.3        a module that maintains parameters used by other modules
+DECLARATIVE           : 6.7        The declarative memory module stores chunks from the buffers for retrieval
+DEVICE                : 7.2        The device interface for a model
+GOAL                  : 2.2        The goal module creates new goals for the goal buffer
+HISTORY-RECORDER      : 2.1        Module to support the saving and accessing of information as a model runs.
+IMAGINAL              : 5.0        The imaginal module provides a goal style buffer with a delay and an action buffer for manipulating the imaginal chunk
+MOTOR                 : 8.0        Module to provide a model with virtual hands
+NAMING-MODULE         : 2.1        Provides safe and repeatable new name generation for models.
+PRINTING-MODULE       : 1.4        Coordinates output of the model.
+PROCEDURAL            : 8.1        The procedural module handles production definition and execution
+PRODUCTION-COMPILATION: 4.2        A module that assists the primary procedural module with compiling productions
+PRODUCTION-HISTORY    : 2.1        Module to record production history for display in the environment.
+RANDOM-MODULE         : 1.1        Provide a good and consistent source of pseudorandom numbers for all systems
+RETRIEVAL-HISTORY     : 2.1        Module to record retrieval history data.
+SPEECH                : 7.0        A module to provide a model with the ability to speak
+STEPPER               : 6.2        Store the model specific information for the stepper interface.
+TEMPORAL              : 3.1        The temporal module is used to estimate short time intervals
+UTILITY               : 5.1        A module that computes production utilities
+VISICON-HISTORY       : 3.1        Module to record visicon changes.
+VISION                : 9.0        A module to provide a model with a visual attention system
+
+######### Loading of ACT-R 7 is complete #########
+* 
+debugger invoked on a SB-INT:SIMPLE-STREAM-ERROR in thread
+#<THREAD "main thread" RUNNING {10005604C3}>:
+  couldn't read from #<SB-SYS:FD-STREAM for "standard input" {1004D98CE3}>:
+    Bad file descriptor
