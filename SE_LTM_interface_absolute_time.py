@@ -7,6 +7,8 @@
 # ### This version replaces the decay parameter BLL with rate of forgetting, alpha. 
 # ### This version is intended to work with the spacing effect version of the RLWM models. 
 # ### This version implements stimuli presented at exactly every 2 seconds
+# ### 10/11/20023
+# ### generating "hail mary" dense parameter space simulations. 
 
 import random as rnd
 import numpy as np
@@ -232,15 +234,18 @@ current_response  = np.repeat('x', nTrials * 2).tolist() #multiply by 2 for numb
 lastLearnTrial = np.size(stims3 + stims6) -1
 
 #parameter ranges for simulation
-se_param = [0.28, 0.3, 0.32, 0.34, 0.36] #spacing effect parameter for rate of forgetting
-mas_param = [1.2, 1.4, 1.6, 1.8, 2, 2.2, 2.4, 2.6, 2.8, 3, 3.2] #MAS parameter TMH 09-2023
+se_param  = [0.18, 0.184, 0.188, 0.192, 0.196, 0.2, 0.204, 0.208, 0.2120, 0.216, 0.22, 0.224, 0.228, 0.232, 0.236, 0.240, 0.244, 0.248, 0.252, 0.256, 0.26, 0.2640, 0.268, 0.272, 0.276, 0.28, 0.284, 0.288, 0.292, 0.296, 0.3,0.304, 0.308,0.312, 0.316, 0.32, 0.324, 0.328, 0.332, 0.336, 0.34, 0.344,   0.348,   0.352,   0.356, 0.360, 0.364, 0.368, 0.372, 0.376, 0.38]
+mas_param = [1.2,1.3, 1.4,1.5, 1.6,1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3, 3.1, 3.2] #MAS parameter TMH 09-2023
+
+#se_param = [0.28, 0.3, 0.32, 0.34, 0.36] #spacing effect parameter for rate of forgetting
+#mas_param = [1.2, 1.4, 1.6, 1.8, 2, 2.2, 2.4, 2.6, 2.8, 3, 3.2] #MAS parameter TMH 09-2023
 
 #mas_param = [0.5, 1, 1.5, 2]
 #bll_param   = [0.3, 0.4, 0.5, 0.6, 0.7]   # decay rate of declarative memory,range around .5 actr rec val
 #alpha_param = [0.05, 0.1, 0.15, 0.2, 0.25] # learning rate of the RL utility selection 0.2 rec val
 #egs_param   = [0.1, 0.2, 0.3, 0.4, 0.5] # amount of noise added to the RL utility selection
-imag_param  = [0.1, 0.2, 0.3 , 0.4, 0.5] #simulates working memory as attentional focus
-ans_param   = [0.1, 0.2, 0.3, 0.4, 0.5] #parameter for noise in dec. memory activation. Range recommended by ACTR manual.
+#imag_param  = [0.1, 0.2, 0.3 , 0.4, 0.5] #simulates working memory as attentional focus
+ans_param   = [0.2]#[0.1, 0.2, 0.3, 0.4, 0.5] #parameter for noise in dec. memory activation. Range recommended by ACTR manual.
 
 
 # LTM model params
